@@ -1,0 +1,55 @@
+<html>
+<head>
+<script>
+    var map;
+    var marker = null;
+    var defaultLatLng = (50.709399, -120.381671);
+
+    function initialize() {
+
+        var mapOptions = {
+            zoom: 10,
+            disableDefaultUI: false,
+            center: new google.maps.LatLng(50.709399, -120.381671), //center on sherbrooke
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+        // fetch the default location youtube videos
+
+          fetchGeo(defaultLatLng);
+
+        google.maps.event.addListener(map, 'click', function(event) {
+        //call function to create marker
+
+            //alert('clicked on map: ' + event.latLng);
+            var golatlngString = latlngToString(event.latLng);
+            fetchGeo(golatlngString);
+
+            $("#coordinate").val(event.latLng.lat() + ", " + event.latLng.lng());
+            $("#coordinate").select();
+
+
+            // delete spot
+            if (marker) { marker.setMap(null); }
+
+
+             marker = new google.maps.Marker({ position: event.latLng, map: map});
+
+        });
+
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+</head>
+<body>
+
+  <div id="gmap" style="with:300px;height:250px;"></div>
+
+  <div id="controls"></div>
+
+</body>
+</html>
